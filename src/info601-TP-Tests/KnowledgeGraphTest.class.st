@@ -24,13 +24,57 @@ KnowledgeGraphTest >> testIfICanAddAVerticeToTheGraph [
 	"This window is where i write new messages. I'm starting with the adding vertice functionality."
 	| knowledge_graph vertice |
 	vertice := Album newWithTitle: 'Godlberg Variations'. 
-	knowledge_graph := KnowledgeGraph new.
+	knowledge_graph := KnowledgeGraph create.
 	knowledge_graph addVertice: vertice.
 	
 "Now if the vertice is correctly added, if i check the number of elements in my set of vertices. It should be at one. Also, if i get the first element of the set, it should be my vertice. I can try to do my test like that"
 	
 	self assert: (knowledge_graph numberOfVertice = 1).
 	self assert: ((knowledge_graph getVerticeByIndex: 1) = vertice).
+]
+
+{ #category : #tests }
+KnowledgeGraphTest >> testIfICanAddAnEdgeToTheGraph [
+
+	"What i can do for this test is something like : adding two vertices and an edges, and ask
+	if there is an edge for this vertice, and ask for it, i finally can compare the edge i 
+	obtained with the one i added at start."
+	
+
+	| vertice1 vertice2 edge1 knowledgeGraph |
+	
+	vertice1 := Album newWithTitle: 'Goldberg Variations'.
+	vertice2 := Track newWithTitle: 'Aria da capo'.
+	edge1 := Edges newEdgeFrom: vertice1 to: vertice2  withRelationship: 'mo:item'.
+	
+	knowledgeGraph := KnowledgeGraph new. 	
+	knowledgeGraph addVertice: vertice1.
+	knowledgeGraph addVertice: vertice2.
+	knowledgeGraph addEdge: edge1.
+	
+	self assert: (knowledgeGraph doesTheVerticeHasEdges: vertice1).
+	self assert: ((knowledgeGraph getEdgesOfThisVertice: vertice1) contains: edge1).
+]
+
+{ #category : #tests }
+KnowledgeGraphTest >> testIfICanGetAEdgeOfAVerticeToTheGraph [
+
+	| vertice1 vertice2 edge1 knowledgeGraph |
+	
+	vertice1 := Album newWithTitle: 'Goldberg Variations'.
+	vertice2 := Track newWithTitle: 'Aria da capo'.
+	edge1 := Edges newEdgeFrom: vertice1 to: vertice2  withRelationship: 'mo:item'.
+	
+	knowledgeGraph := KnowledgeGraph new. 	
+	knowledgeGraph addVertice: vertice1.
+	knowledgeGraph addVertice: vertice2.
+	knowledgeGraph addEdge: edge1.
+	
+	"If we want to test if i can get a Vertice of my graph. I can simply get all the edges of
+	the graph and then see if the one i added ear."
+	
+	self assert: (knowledgeGraph getAllEdges contains:edge1)
+	
 ]
 
 { #category : #testing }
@@ -42,15 +86,28 @@ KnowledgeGraphTest >> testIfICanGetAVerticeOfMyGraph [
 		vertice1 := Album newWithTitle: 'ciao'.
 		vertice2 := Track newWithTitle: 'asad'.
 		edge1 := Edges newEdgeFrom: vertice1 to: vertice2  withRelationship: 'dc:Creator'. 
-		knowledgeGraph := KnowledgeGraph new. 
+		knowledgeGraph := KnowledgeGraph new.
 		knowledgeGraph addVertice: vertice1.
-		knowledgeGraph addVertice: vertice2.
-
-		
+		knowledgeGraph addVertice: vertice2.	
 		knowledgeGraph addEdge: edge1. 
 		
 		self assert: (knowledgeGraph getAllVertices contains: vertice1).
 		self assert: (knowledgeGraph getAllVertices contains: vertice2).
-		self assert: (knowledgeGraph getAllEdges contains: edge1). 
-		
+]
+
+{ #category : #tests }
+KnowledgeGraphTest >> testIfICanGetAnEdgeOfMyGraph [
+
+	| vertice1 vertice2 edge1 knowledgeGraph |
+	
+	vertice1 := Album newWithTitle: 'Goldberg Variations'.
+	vertice2 := Track newWithTitle: 'Aria da capo'.
+	edge1 := Edges newEdgeFrom: vertice1 to: vertice2  withRelationship: 'mo:item'.
+	
+	knowledgeGraph := KnowledgeGraph new. 	
+	knowledgeGraph addVertice: vertice1.
+	knowledgeGraph addVertice: vertice2.
+	knowledgeGraph addEdge: edge1.
+	
+	self assert: (knowledgeGraph getAllEdges contains: edge1).
 ]
