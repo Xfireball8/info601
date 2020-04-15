@@ -1,3 +1,10 @@
+"
+I am a class which contains the test for the Track Object in the info601-TP package.
+
+What i am able to test : 
+	- Can i create a track with the correct ontology class ?
+	- Can i create a track with the title i provided  ?  
+"
 Class {
 	#name : #TrackTest,
 	#superclass : #TestCase,

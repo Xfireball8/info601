@@ -6,7 +6,7 @@ Instances Var :
 	rdf:type -> The ontology class of the element.
 "
 Class {
-	#name : #Sommet,
+	#name : #Vertices,
 	#superclass : #Object,
 	#instVars : [
 		'rdf_type'
@@ -15,11 +15,11 @@ Class {
 }
 
 { #category : #accessing }
-Sommet >> rdf_type [
+Vertices >> rdf_type [
 	^ rdf_type
 ]
 
 { #category : #accessing }
-Sommet >> rdf_type: anObject [
+Vertices >> rdf_type: anObject [
 	rdf_type := anObject
 ]

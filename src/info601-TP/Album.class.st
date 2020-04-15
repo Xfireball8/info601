@@ -13,7 +13,7 @@ Instance Vars :
 "
 Class {
 	#name : #Album,
-	#superclass : #Sommet,
+	#superclass : #Vertices,
 	#instVars : [
 		'rdfs_label'
 	],

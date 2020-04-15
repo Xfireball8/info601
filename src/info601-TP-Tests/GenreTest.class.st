@@ -1,3 +1,10 @@
+"
+I am a class which contains the test for the Genre Object in the info601-TP package.
+
+What i am able to test : 
+	- Can i create a genre with the correct ontology class ?
+	- Can i create a genre with the label i provided  ?  
+"
 Class {
 	#name : #GenreTest,
 	#superclass : #TestCase,

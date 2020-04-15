@@ -1,3 +1,10 @@
+"
+I am a class which contains the test for the MusicArtist Object in the info601-TP package.
+
+What i am able to test : 
+	- Can i create an artist with the correct ontology class ?
+	- Can i create a artist with the name i provided  ?  
+"
 Class {
 	#name : #MusicArtistTest,
 	#superclass : #TestCase,

@@ -13,7 +13,7 @@ Instance Vars :
 "
 Class {
 	#name : #MusicArtist,
-	#superclass : #Sommet,
+	#superclass : #Vertices,
 	#instVars : [
 		'foaf_name'
 	],
