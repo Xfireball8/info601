@@ -11,19 +11,15 @@ Class {
 	#instVars : [
 		'rdf_type'
 	],
-	#classInstVars : [
-		'rdf_type'
-	],
 	#category : #'info601-TP'
 }
-
-{ #category : #'instance creation' }
-Sommet class >> new [
-	"Classe abstraite ne peut être implémentée"
-	^self subclassResponsibility 
-]
 
 { #category : #accessing }
 Sommet >> rdf_type [
 	^ rdf_type
+]
+
+{ #category : #accessing }
+Sommet >> rdf_type: anObject [
+	rdf_type := anObject
 ]
