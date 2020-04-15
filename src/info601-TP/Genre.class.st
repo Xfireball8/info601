@@ -14,9 +14,29 @@ Instance Vars :
 Class {
 	#name : #Genre,
 	#superclass : #Sommet,
-	#classVars : [
-		'rdf_type',
+	#instVars : [
 		'rdfs_label'
 	],
 	#category : #'info601-TP'
 }
+
+{ #category : #'instance creation' }
+Genre class >> newWithName: aString [
+	"a method to instanciate an album with its title."
+			
+	| instance |
+	instance := self new.
+	instance rdf_type: 'mo:genre'.
+	instance rdfs_label: aString.
+	^instance
+]
+
+{ #category : #accessing }
+Genre >> rdfs_label [
+	^ rdfs_label
+]
+
+{ #category : #accessing }
+Genre >> rdfs_label: anObject [
+	rdfs_label := anObject
+]

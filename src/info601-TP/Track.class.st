@@ -19,3 +19,24 @@ Class {
 	],
 	#category : #'info601-TP'
 }
+
+{ #category : #'instance creation' }
+Track class >> newWithTitle: aString [
+	"a method to instanciate an album with its title."
+			
+	| instance |
+	instance := self new.
+	instance rdf_type: 'mo:track'.
+	instance rdfs_label: aString.
+	^instance
+]
+
+{ #category : #accessing }
+Track >> rdfs_label [
+	^ rdfs_label
+]
+
+{ #category : #accessing }
+Track >> rdfs_label: anObject [
+	rdfs_label := anObject
+]

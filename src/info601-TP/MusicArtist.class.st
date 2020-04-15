@@ -19,3 +19,24 @@ Class {
 	],
 	#category : #'info601-TP'
 }
+
+{ #category : #'instance creation' }
+MusicArtist class >> newWithName: aString [
+	"a method to instanciate an artist with its name."
+			
+	| instance |
+	instance := self new.
+	instance rdf_type: 'mo:musicArtist'.
+	instance foaf_name: aString.
+	^instance
+]
+
+{ #category : #accessing }
+MusicArtist >> foaf_name [
+	^ foaf_name
+]
+
+{ #category : #accessing }
+MusicArtist >> foaf_name: anObject [
+	foaf_name := anObject
+]

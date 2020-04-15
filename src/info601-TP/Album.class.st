@@ -26,6 +26,17 @@ Album class >> newWithTitle: aString [
 			
 	| instance |
 	instance := self new.
-	instance rdf_type: aString.
+	instance rdf_type: 'mo:album'.
+	instance rdfs_label: aString.
 	^instance
+]
+
+{ #category : #accessing }
+Album >> rdfs_label [
+	^ rdfs_label
+]
+
+{ #category : #accessing }
+Album >> rdfs_label: anObject [
+	rdfs_label := anObject
 ]
