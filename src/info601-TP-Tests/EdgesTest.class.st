@@ -21,8 +21,8 @@ EdgesTest >> testTheDirectionOfTheEdge [
 	vertice1 := Album newWithTitle: 'Goldberg Variations'.
 	vertice2 := Track newWithTitle: 'Aria da capo'.
 	instance := Edges newEdgeFrom: vertice1 to: vertice2 withRelationship: 'mo:item'.
-	self assert: (instance begining = vertice1).
-	self deny: (instance begining = vertice2).
+	self assert: (instance begining = vertice1). "if begining is vertice1 it's okay"
+	self deny: (instance begining = vertice2). "if begining is vertice2 then it's not okay"
 	self assert: (instance ending = vertice2).
 	self deny: (instance ending = vertice1).
 

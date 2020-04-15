@@ -25,9 +25,9 @@ Track class >> newWithTitle: aString [
 	"a method to instanciate an album with its title."
 			
 	| instance |
-	instance := self new.
-	instance rdf_type: 'mo:track'.
-	instance rdfs_label: aString.
+	instance := self new. 
+	instance rdf_type: 'mo:track'. 
+	instance rdfs_label: aString. 
 	^instance
 ]
 
@@ -38,5 +38,7 @@ Track >> rdfs_label [
 
 { #category : #accessing }
 Track >> rdfs_label: anObject [
+	"This is a comment, this is a function that take an object as a paremeter and put it in the
+	rdfs_label variable of this object."
 	rdfs_label := anObject
 ]
