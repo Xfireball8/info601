@@ -125,7 +125,7 @@ KnowledgeGraphTest >> testIfIcanGetAllTracksInMyGraph [
 	knowledgeGraph := KnowledgeGraph createTpGraph.
 	
 	tracksWithoutTraversal  := knowledgeGraph getAllTracksWithoutTraversal.
-	trackWithTraversal := knowledgeGraph breadthSearchForType: 'mo:track'.
+	trackWithTraversal := knowledgeGraph getAllTracks.
 	
 	self assert: (
 	trackWithTraversal allSatisfy: 

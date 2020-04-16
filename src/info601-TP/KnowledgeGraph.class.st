@@ -190,6 +190,11 @@ KnowledgeGraph >> getAllEdges [
 	^self edges
 ]
 
+{ #category : #competencyQuestion }
+KnowledgeGraph >> getAllTracks [
+	^self breadthSearchForType: 'mo:track'
+]
+
 { #category : #accessing }
 KnowledgeGraph >> getAllTracksWithoutTraversal [
 	| tracks |
