@@ -9,10 +9,21 @@ Class {
 	#name : #Vertices,
 	#superclass : #Object,
 	#instVars : [
-		'rdf_type'
+		'rdf_type',
+		'mark'
 	],
 	#category : #'info601-TP'
 }
+
+{ #category : #accessing }
+Vertices >> mark [
+	^ mark
+]
+
+{ #category : #accessing }
+Vertices >> mark: anObject [
+	mark := anObject
+]
 
 { #category : #accessing }
 Vertices >> rdf_type [

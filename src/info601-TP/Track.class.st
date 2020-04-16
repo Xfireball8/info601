@@ -26,6 +26,7 @@ Track class >> newWithTitle: aString [
 			
 	| instance |
 	instance := self new. 
+	instance mark: false.
 	instance rdf_type: 'mo:track'. 
 	instance rdfs_label: aString. 
 	^instance

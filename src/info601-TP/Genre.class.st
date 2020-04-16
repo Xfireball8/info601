@@ -26,6 +26,7 @@ Genre class >> newWithName: aString [
 			
 	| instance |
 	instance := self new.
+	instance mark: false.
 	instance rdf_type: 'mo:genre'.
 	instance rdfs_label: aString.
 	^instance

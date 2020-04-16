@@ -107,6 +107,50 @@ KnowledgeGraph >> addVertice: aVertice [
 	edges incrementVerticesNumber
 ]
 
+{ #category : #accessing }
+KnowledgeGraph >> breadthSearchForType: aRdfTypeString [
+	| starting_vertice file res |
+	res := VerticeArray create.
+	starting_vertice := self getAVertice.
+	file := WaitfreeQueue new.
+	
+	file nextPut: starting_vertice.
+	starting_vertice mark: true.
+	file flush: [
+		 :current_vertice |
+		 | edge_arr from_edges to_edges |
+		 	"Tester si le sommet actuel est bien du type que l'on cherche
+			si oui, l'ajouter au resultat."
+			(current_vertice rdf_type = aRdfTypeString) ifTrue: [ 
+					res add: current_vertice
+				 ].
+			
+			"Mettre en file les sommets voisins et les marquer."
+			edge_arr := (self getEdgesOfThisVertice: current_vertice).
+			from_edges := edge_arr at: 1.
+			to_edges := edge_arr  at: 2.
+			from_edges do: [ 
+					:each |
+					each isNotNil ifTrue: [
+					(each ending mark) ifFalse: [
+						file nextPut: (each ending).
+						each begining mark: true.
+						]
+					]
+				 ].
+			to_edges do: [ 
+				:each |
+				each isNotNil ifTrue: [
+				(each begining mark) ifFalse: [
+						file nextPut: (each begining).
+						each begining mark: true.
+						]
+					]
+				 ].
+			].	
+	^res
+]
+
 { #category : #test }
 KnowledgeGraph >> doesTheVerticeHasEdges: aVertice [
 	" Je veux savoir si ma vertice possède au moins une arrête. Les arrêtes sont stoquées dans 	  	  	EdgesMatrix.
@@ -137,8 +181,24 @@ KnowledgeGraph >> edges: anObject [
 ]
 
 { #category : #accessing }
+KnowledgeGraph >> getAVertice [
+	^self vertices get: 1
+]
+
+{ #category : #accessing }
 KnowledgeGraph >> getAllEdges [
 	^self edges
+]
+
+{ #category : #accessing }
+KnowledgeGraph >> getAllTracksWithoutTraversal [
+	| tracks |
+	tracks := VerticeArray create.
+	self vertices do:[ 
+		:each |
+		each className = 'Track' ifTrue: [ tracks add: each ]
+		].
+	^tracks
 ]
 
 { #category : #accessing }

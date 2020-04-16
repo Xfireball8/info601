@@ -8,7 +8,8 @@ What i test is :
 		- I want to get a Vertice that is in my graph.
 		- I want to get a edge that is in my graph.
       - I want to get the edge of some vertice in my graph.
-      
+      - I want to get all the music in my graph.
+
 		TODO : Creating tests for searching things in the graph, and real functionality.
 "
 Class {
@@ -115,4 +116,25 @@ KnowledgeGraphTest >> testIfICanGetAnEdgeOfMyGraph [
 	knowledgeGraph addEdge: edge1.
 	
 	self assert: (knowledgeGraph getAllEdges detect: [:each | each = edge1] ifFound:[true] ifNone:[false]).
+]
+
+{ #category : #tests }
+KnowledgeGraphTest >> testIfIcanGetAllTracksInMyGraph [
+
+	| knowledgeGraph tracksWithoutTraversal trackWithTraversal |
+	knowledgeGraph := KnowledgeGraph createTpGraph.
+	
+	tracksWithoutTraversal  := knowledgeGraph getAllTracksWithoutTraversal.
+	trackWithTraversal := knowledgeGraph breadthSearchForType: 'mo:track'.
+	
+	self assert: (
+	trackWithTraversal allSatisfy: 
+		[:eachTrackWithTraversal | 
+				tracksWithoutTraversal anySatisfy: 
+					[ 
+						:eachTrackWithoutTraversal |
+						eachTrackWithoutTraversal = eachTrackWithTraversal 
+				 	]
+		]
+	).
 ]

@@ -26,6 +26,7 @@ MusicArtist class >> newWithName: aString [
 			
 	| instance |
 	instance := self new.
+	instance mark: false.
 	instance rdf_type: 'mo:musicArtist'.
 	instance foaf_name: aString.
 	^instance
