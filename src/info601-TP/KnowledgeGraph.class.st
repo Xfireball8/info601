@@ -26,6 +26,67 @@ KnowledgeGraph class >> create [
 	
 ]
 
+{ #category : #'instance creation' }
+KnowledgeGraph class >> createTpGraph [
+
+	"Create the graph we draw in for the TP."
+	
+	
+	| artist1 artist2 artist3 album1 music1 music2 music3 genre1 edge1 edge2 edge3 edge4 edge5 edge6 	edge7 edge8 edge9 edge10 instance |
+	
+	
+	"++++++ Genre ++++++"
+	genre1 := Genre newWithName: 'Classic'.
+	
+	"++++++ Music ++++++"
+	music1 := Track newWithTitle: 'Aria da capo'.
+	music2 := Track newWithTitle: 'Aria da capo'.
+	music3 := Track newWithTitle: 'Aria da capo'.
+	
+	"++++++ Album   ++++++"
+	album1 := Album newWithTitle: 'Goldberg Variations'.
+	
+	"++++++ Artists ++++++"
+	artist1 := MusicArtist newWithName: 'Gustav Leonhardt'.
+	artist2 := MusicArtist newWithName: 'Bach Johann Sebastian'.
+	artist3 := MusicArtist newWithName: 'Angela Hewitt'.
+	
+
+	"++++++ Edge ++++++"
+	edge1 := Edges newEdgeFrom: artist2  to:  album1  withRelationship: 'dc:creator'.
+	edge2 := Edges newEdgeFrom: artist2 to:  music1 withRelationship: 'dc:creator'.
+	edge3 := Edges newEdgeFrom: music3 to: music1  withRelationship: 'mo:similarTo'.
+	edge4 := Edges newEdgeFrom: music1 to:music2  withRelationship: 'mo:similarTo'.
+	edge5 := Edges newEdgeFrom: music2 to: music3  withRelationship: 'mo:similarTo'.
+	edge6 := Edges newEdgeFrom: music1 to: genre1 withRelationship: 'mo:genre'.
+	edge7 := Edges newEdgeFrom: music2 to: genre1 withRelationship: 'mo:genre'.
+	edge8 := Edges newEdgeFrom: music3 to: genre1 withRelationship: 'mo:genre'.
+	edge9 := Edges newEdgeFrom: artist1  to: music3 withRelationship: 'dc:creator'.
+	edge10 :=  Edges newEdgeFrom: artist3  to: music2 withRelationship: 'dc:creator'.
+	
+	instance := self create.
+	instance addVertice: genre1.
+	instance addVertice: album1.
+	instance addVertice: artist1.
+	instance addVertice: artist2.
+	instance addVertice: artist3.
+	instance addVertice: music1.
+	instance addVertice: music2.
+	instance addVertice: music3.
+	instance addEdge: edge1.
+	instance addEdge: edge2.
+	instance addEdge: edge3.
+	instance addEdge: edge4.
+	instance addEdge: edge5.
+	instance addEdge: edge6.
+	instance addEdge: edge7.
+	instance addEdge: edge8.
+	instance addEdge: edge9.
+	instance addEdge: edge10.
+	
+	^instance
+]
+
 { #category : #adding }
 KnowledgeGraph >> addEdge: anEdge [
 	

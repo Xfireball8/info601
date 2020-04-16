@@ -8,8 +8,6 @@ What i test is :
 		- I want to get a Vertice that is in my graph.
 		- I want to get a edge that is in my graph.
       - I want to get the edge of some vertice in my graph.
-
-		Alright.
       
 		TODO : Creating tests for searching things in the graph, and real functionality.
 "
