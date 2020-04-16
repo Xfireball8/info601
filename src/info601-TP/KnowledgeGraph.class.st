@@ -107,6 +107,46 @@ KnowledgeGraph >> addVertice: aVertice [
 	edges incrementVerticesNumber
 ]
 
+{ #category : #'as yet unclassified' }
+KnowledgeGraph >> depthSearchForType [
+	"Nay :p That's not that easy. We need to do a depth search algorithm.
+	There you just try to iterate through the vertices array to get the info you want.
+	In a depth search algorithm you take one vertice. Then you navigate through the 
+	graph via the edges.
+	
+	But that's not bad.
+	"
+	| allArtists  allVertices arrayOfVertices |
+	
+	allVertices := Vertices  getAllVertices.
+	allArtists := MusicArtist  new.
+	arrayOfVertices := VerticeArray new.
+	
+	0 to: 100 do: [ :i |  (allVertices getVerticeByIndex: i isNotNil)
+		ifTrue: [ 
+				"Here your each contains a value in the range of 0;100, in small talk
+				array start at 1. each is your 'i' "
+				((allVertices rdf_type: (allVertices getVerticeByIndex: i) ) isEqualTo: 'mo:musicArtist') "wrong"
+				"A vertice can't be equal to a string, but the rdf_type of the vertice can."
+				ifTrue: [
+					"If you want to create a variable that contains all your musicArtist,
+					remember that musicArtist is a subclass of Vertices, so you can usse
+					VerticeArray to put musicArtist in.
+					Here you create a Vertice and you assign to it each time you found
+					a vertice the last vertice you found. :s
+					
+					You begin to understand :)
+					Try again just with the getAllArtistWithoutTraversal.
+					
+					It's the idea that you were trying to develop here. Alright ?yes okok i stay on teamviewer i'm coding at the same time :)
+					okok
+					"
+					allArtists newWithName: (allVertices getVerticeByIndex: i).
+					arrayOfVertices add: allArtists.
+					]
+			 ] ]
+]
+
 { #category : #test }
 KnowledgeGraph >> doesTheVerticeHasEdges: aVertice [
 	" Je veux savoir si ma vertice possède au moins une arrête. Les arrêtes sont stoquées dans 	  	  	EdgesMatrix.

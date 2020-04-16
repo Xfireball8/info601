@@ -8,7 +8,8 @@ What i test is :
 		- I want to get a Vertice that is in my graph.
 		- I want to get a edge that is in my graph.
       - I want to get the edge of some vertice in my graph.
-      
+      - I want to test if i can retrieve all the artists. 
+
 		TODO : Creating tests for searching things in the graph, and real functionality.
 "
 Class {
@@ -115,4 +116,70 @@ KnowledgeGraphTest >> testIfICanGetAnEdgeOfMyGraph [
 	knowledgeGraph addEdge: edge1.
 	
 	self assert: (knowledgeGraph getAllEdges detect: [:each | each = edge1] ifFound:[true] ifNone:[false]).
+]
+
+{ #category : #tests }
+KnowledgeGraphTest >> testIfICanRetrieveAllArtists [
+	"To remmber : Everytime you wonder how you could do something :
+		First check if there is a message you can send to the instance of the KnowledgeGraph
+		That gives you the data you seek immediately (without manipulating the result of another
+		general message).
+		
+		If you don't have this convenient message, do as if it existed and think of it 
+		in term of Abstract data type (What should i receive from this message that 
+		i send in this object ?).
+		
+		Continue to program your test as if everything was working and save it.
+		
+		Once you finished it . Now save it and implement the message that does not
+		exist, but that you imagined. And repeat the process for every message that
+		you program until you have a method so easy to do that the solution becomes
+		evident in term of algorithm.
+		
+		The idea of pure object oriented programming is to delegate as much as possible the
+		work to do to messages that will do a specific thing.`
+		
+		For example : You want to get all the albums of the graph but without doing a traversal.
+		We simply imagine that such a message that provides this to us exist.
+		| knowledgeGraph albumsOfTheGraph |
+		knowledgeGraph := KnowledgeGraph createWithTPData.
+		albumsOfTheGraph := knowledgeGraph getAllAlbumsWithoutTraversal.
+		
+		You see we just invented a new message, it's only when we will have 
+		finished the current algorithm. That we will start to think on how
+		to implement the non-existant message. aLRIGHT ?okok thanksss
+		Okay i get back to my work :) don't hesitate to question me 
+		"
+
+	"TODO : Create the knowledge graph with TP data."
+	
+	"TDOD : Get All Albums from the graph but without doing a Graph traversal"
+	
+	"TODO : Do the graph traversal and get the result"
+	
+	"TODO : Assert that the result you obtain from graph traversal is alright."
+	
+
+	| knowledgeGraph artistsWithoutTraversal artistsWithTraversal a|
+   knowledgeGraph := KnowledgeGraph createTpGraph.
+	artistsWithoutTraversal := knowledgeGraph getAllArtistsWithoutTrasversal.
+	artistsWithTraversal := knowledgeGraph depthSearchForType: 'mo:musicArtist'.
+
+ self assert: (
+    	artistsWithTraversal allSatisfy: 
+			[:eachArtistsWithTraversal |
+			"TODO : It misses the loop throught the without traversal."
+			"Here it is wrong because if u use allSatisfy, then it'll fail,
+			you only need to validate the presence of one element in the 
+			set so you need to use, anySatisfyNow it's correct."
+				artistsWithoutTraversal anySatisfy: 
+					[ :eachArtistsWithoutTraversal |
+						
+						artistsWithoutTraversal  = artistsWithTraversal  
+					
+					 ]
+				
+			]
+		).
+
 ]
