@@ -47,13 +47,20 @@ KnowledgeGraphTest >> testIfICanAddAnEdgeToTheGraph [
 	vertice2 := Track newWithTitle: 'Aria da capo'.
 	edge1 := Edges newEdgeFrom: vertice1 to: vertice2  withRelationship: 'mo:item'.
 	
-	knowledgeGraph := KnowledgeGraph new. 	
+	knowledgeGraph := KnowledgeGraph create. 	
 	knowledgeGraph addVertice: vertice1.
 	knowledgeGraph addVertice: vertice2.
 	knowledgeGraph addEdge: edge1.
 	
 	self assert: (knowledgeGraph doesTheVerticeHasEdges: vertice1).
-	self assert: ((knowledgeGraph getEdgesOfThisVertice: vertice1) contains: edge1).
+	self assert: ((knowledgeGraph getEdgesOfThisVertice: vertice1) 
+	detect: [
+		:from_or_to_edges | 
+		true = (from_or_to_edges detect: [:eachVertice | eachVertice = edge1] ifFound:[true] ifNone:[false])
+		]
+	ifFound:[true] 
+	ifNone:[false]
+	).
 ]
 
 { #category : #tests }
@@ -65,7 +72,7 @@ KnowledgeGraphTest >> testIfICanGetAEdgeOfAVerticeToTheGraph [
 	vertice2 := Track newWithTitle: 'Aria da capo'.
 	edge1 := Edges newEdgeFrom: vertice1 to: vertice2  withRelationship: 'mo:item'.
 	
-	knowledgeGraph := KnowledgeGraph new. 	
+	knowledgeGraph := KnowledgeGraph create. 	
 	knowledgeGraph addVertice: vertice1.
 	knowledgeGraph addVertice: vertice2.
 	knowledgeGraph addEdge: edge1.
@@ -73,7 +80,7 @@ KnowledgeGraphTest >> testIfICanGetAEdgeOfAVerticeToTheGraph [
 	"If we want to test if i can get a Vertice of my graph. I can simply get all the edges of
 	the graph and then see if the one i added ear."
 	
-	self assert: (knowledgeGraph getAllEdges contains:edge1)
+	self assert: (knowledgeGraph getAllEdges detect: [:each | each = edge1] ifFound: [true] ifNone: [false])
 	
 ]
 
@@ -86,13 +93,13 @@ KnowledgeGraphTest >> testIfICanGetAVerticeOfMyGraph [
 		vertice1 := Album newWithTitle: 'ciao'.
 		vertice2 := Track newWithTitle: 'asad'.
 		edge1 := Edges newEdgeFrom: vertice1 to: vertice2  withRelationship: 'dc:Creator'. 
-		knowledgeGraph := KnowledgeGraph new.
+		knowledgeGraph := KnowledgeGraph create.
 		knowledgeGraph addVertice: vertice1.
 		knowledgeGraph addVertice: vertice2.	
 		knowledgeGraph addEdge: edge1. 
 		
-		self assert: (knowledgeGraph getAllVertices contains: vertice1).
-		self assert: (knowledgeGraph getAllVertices contains: vertice2).
+		self assert: (knowledgeGraph getAllVertices detect: [:each | each = vertice1] ifFound:[true] ifNone:[false]).
+		self assert: (knowledgeGraph getAllVertices detect: [:each | each = vertice2] ifFound:[true] ifNone:[false]).
 ]
 
 { #category : #tests }
@@ -104,10 +111,10 @@ KnowledgeGraphTest >> testIfICanGetAnEdgeOfMyGraph [
 	vertice2 := Track newWithTitle: 'Aria da capo'.
 	edge1 := Edges newEdgeFrom: vertice1 to: vertice2  withRelationship: 'mo:item'.
 	
-	knowledgeGraph := KnowledgeGraph new. 	
+	knowledgeGraph := KnowledgeGraph create. 	
 	knowledgeGraph addVertice: vertice1.
 	knowledgeGraph addVertice: vertice2.
 	knowledgeGraph addEdge: edge1.
 	
-	self assert: (knowledgeGraph getAllEdges contains: edge1).
+	self assert: (knowledgeGraph getAllEdges detect: [:each | each = edge1] ifFound:[true] ifNone:[false]).
 ]

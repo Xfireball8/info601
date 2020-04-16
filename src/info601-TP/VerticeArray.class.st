@@ -24,9 +24,10 @@ VerticeArray class >> create [
 { #category : #adding }
 VerticeArray >> add: aVertice [
 	| i |
+	aVertice isNotNil
+		ifFalse: [ ^ self ].
 	i := self nextIndex.
-
-	^self at: i put: aVertice
+	self at: i put: aVertice
 ]
 
 { #category : #public }
@@ -42,6 +43,11 @@ VerticeArray >> index [
 { #category : #accessing }
 VerticeArray >> index: anObject [
 	index := anObject
+]
+
+{ #category : #accessing }
+VerticeArray >> indexOfThisVertice: aVertice [
+	^self indexOf: aVertice
 ]
 
 { #category : #adding }
