@@ -107,7 +107,7 @@ KnowledgeGraph >> addVertice: aVertice [
 	edges incrementVerticesNumber
 ]
 
-{ #category : #accessing }
+{ #category : #searchAlgorithms }
 KnowledgeGraph >> breadthSearchForType: aRdfTypeString [
 	| starting_vertice file res |
 	res := VerticeArray create.
@@ -147,7 +147,8 @@ KnowledgeGraph >> breadthSearchForType: aRdfTypeString [
 						]
 					]
 				 ].
-			].	
+			].
+	self markVerticesAsFalse.
 	^res
 ]
 
@@ -246,6 +247,11 @@ KnowledgeGraph >> getVerticeByIndex: anInteger [
 		 ] ifFalse: [ 
 		^nil
 		 ]
+]
+
+{ #category : #accessing }
+KnowledgeGraph >> markVerticesAsFalse [ 
+	self vertices do: [ :each | each isNotNil ifTrue: [each mark: false] ].
 ]
 
 { #category : #accessing }
