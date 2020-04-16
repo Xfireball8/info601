@@ -9,7 +9,11 @@ What i test is :
 		- I want to get a edge that is in my graph.
       - I want to get the edge of some vertice in my graph.
       - I want to get all the music in my graph.
-
+		- I want to get a particular music.
+		- I want to get a particular album.
+		- I want to get a particular artist.
+		- I want to get all the informations about one thing.
+		
 		TODO : Creating tests for searching things in the graph, and real functionality.
 "
 Class {
@@ -83,6 +87,57 @@ KnowledgeGraphTest >> testIfICanGetAEdgeOfAVerticeToTheGraph [
 	
 ]
 
+{ #category : #tests }
+KnowledgeGraphTest >> testIfICanGetAParticularAlbum [
+	
+	| knowledgeGraph album1 album2 name_album1 name_album2 |
+	name_album1 := 'Goldberg Variations'.
+	name_album2 := '8 Études-Tableaux'.
+	
+	knowledgeGraph := KnowledgeGraph createTpGraph.
+	album1 := knowledgeGraph getTheAlbumWithTheName: name_album1.
+	album2 := knowledgeGraph getTheAlbumWithTheName: name_album2.
+	
+	
+	self assert: (album1 rdfs_label = name_album1).
+	self assert: (album2 rdfs_label = name_album2).
+	
+]
+
+{ #category : #tests }
+KnowledgeGraphTest >> testIfICanGetAParticularArtist [
+	
+	| knowledgeGraph artist1 artist2 name_artist1 name_artist2 |
+	name_artist1 := 'Bach Johann Sebastian'.
+	name_artist2 := 'Alberto Ferro'.
+	
+	knowledgeGraph := KnowledgeGraph createTpGraph.
+	artist1 := knowledgeGraph getTheArtistWithTheName: name_artist1.
+	artist2 := knowledgeGraph getTheArtistWithTheName: name_artist2.
+	
+	
+	self assert: (artist1 foaf_name = name_artist1).
+	self assert: (artist2 foaf_name = name_artist2).
+	
+]
+
+{ #category : #tests }
+KnowledgeGraphTest >> testIfICanGetAParticularMusic [
+	
+	| knowledgeGraph track1 track2 name_track1 name_track2 |
+	name_track1 := 'Aria da capo'.
+	name_track2 := 'Op. 33: No. 1 in F Minor'.
+	
+	knowledgeGraph := KnowledgeGraph createTpGraph.
+	track1 := knowledgeGraph getTheTrackWithTheName: name_track1.
+	track2 := knowledgeGraph getTheTrackWithTheName: name_track2.
+	
+	
+	self assert: (track1 rdfs_label = name_track1).
+	self assert: (track2 rdfs_label = name_track2).
+	
+]
+
 { #category : #testing }
 KnowledgeGraphTest >> testIfICanGetAVerticeOfMyGraph [
 "Try to do the test on getting vertices of the graph, how you''ll do t ? i see the other because i don't remember the sintax"
@@ -116,6 +171,23 @@ KnowledgeGraphTest >> testIfICanGetAnEdgeOfMyGraph [
 	knowledgeGraph addEdge: edge1.
 	
 	self assert: (knowledgeGraph getAllEdges detect: [:each | each = edge1] ifFound:[true] ifNone:[false]).
+]
+
+{ #category : #tests }
+KnowledgeGraphTest >> testIfICanGetInformationAboutAThing [
+
+	| knowledgeGraph track_genre track_album track_name infos track_artist |
+	track_name := 'Op. 33: No. 1 in F Minor'.
+	knowledgeGraph := KnowledgeGraph createTpGraph.
+	track_album := knowledgeGraph getTheAlbumWithTheName: '8 Études-Tableaux'.
+	track_genre := knowledgeGraph getTheGenreWithTheName: 'Classic'.
+	track_artist := knowledgeGraph getTheArtistWithTheName: 'Alberto Ferro'.
+	infos := knowledgeGraph getInfosAboutTheTrack: track_name.
+	
+	self assert:(infos anySatisfy: [:each | track_album = each]).
+	self assert:(infos anySatisfy: [:each | track_genre = each]).
+	self assert:(infos anySatisfy: [:each | track_artist = each]).
+	
 ]
 
 { #category : #tests }

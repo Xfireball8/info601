@@ -32,7 +32,7 @@ KnowledgeGraph class >> createTpGraph [
 	"Create the graph we draw in for the TP."
 	
 	
-	| artist1 artist2 artist3 album1 music1 music2 music3 genre1 edge1 edge2 edge3 edge4 edge5 edge6 	edge7 edge8 edge9 edge10 instance |
+	| artist1 artist2 artist3 album1 music1 music2 music3 genre1 edge1 edge2 edge3 edge4 edge5 edge6 	edge7 edge8 edge9 edge10 instance music4 edge11 artist4 album2 edge12 edge13 edge14 |
 	
 	
 	"++++++ Genre ++++++"
@@ -42,19 +42,22 @@ KnowledgeGraph class >> createTpGraph [
 	music1 := Track newWithTitle: 'Aria da capo'.
 	music2 := Track newWithTitle: 'Aria da capo'.
 	music3 := Track newWithTitle: 'Aria da capo'.
+	music4 := Track newWithTitle: 'Op. 33: No. 1 in F Minor'.
 	
 	"++++++ Album   ++++++"
 	album1 := Album newWithTitle: 'Goldberg Variations'.
+	album2 := Album newWithTitle: '8 Études-Tableaux'.
 	
 	"++++++ Artists ++++++"
 	artist1 := MusicArtist newWithName: 'Gustav Leonhardt'.
 	artist2 := MusicArtist newWithName: 'Bach Johann Sebastian'.
 	artist3 := MusicArtist newWithName: 'Angela Hewitt'.
+	artist4 := MusicArtist newWithName: 'Alberto Ferro'.
 	
 
 	"++++++ Edge ++++++"
-	edge1 := Edges newEdgeFrom: artist2  to:  album1  withRelationship: 'dc:creator'.
-	edge2 := Edges newEdgeFrom: artist2 to:  music1 withRelationship: 'dc:creator'.
+	edge1 := Edges newEdgeFrom: artist2  to: album1  withRelationship: 'dc:creator'.
+	edge2 := Edges newEdgeFrom: artist2 to: music1 withRelationship: 'dc:creator'.
 	edge3 := Edges newEdgeFrom: music3 to: music1  withRelationship: 'mo:similarTo'.
 	edge4 := Edges newEdgeFrom: music1 to:music2  withRelationship: 'mo:similarTo'.
 	edge5 := Edges newEdgeFrom: music2 to: music3  withRelationship: 'mo:similarTo'.
@@ -63,16 +66,24 @@ KnowledgeGraph class >> createTpGraph [
 	edge8 := Edges newEdgeFrom: music3 to: genre1 withRelationship: 'mo:genre'.
 	edge9 := Edges newEdgeFrom: artist1  to: music3 withRelationship: 'dc:creator'.
 	edge10 :=  Edges newEdgeFrom: artist3  to: music2 withRelationship: 'dc:creator'.
+	edge11 := Edges newEdgeFrom: music4 to: genre1 withRelationship: 'mo:genre'.
+	edge12 := Edges newEdgeFrom: artist4 to: music4 withRelationship: 'dc:creator'.
+	edge13 := Edges newEdgeFrom: music4 to: album2 withRelationship: 'mo:item'.
+	edge14 := Edges newEdgeFrom: music1 to: album1 withRelationship: 'mo:item'.
+	
 	
 	instance := self create.
 	instance addVertice: genre1.
 	instance addVertice: album1.
+	instance addVertice: album2.
 	instance addVertice: artist1.
 	instance addVertice: artist2.
 	instance addVertice: artist3.
+	instance addVertice: artist4.
 	instance addVertice: music1.
 	instance addVertice: music2.
 	instance addVertice: music3.
+	instance addVertice: music4.
 	instance addEdge: edge1.
 	instance addEdge: edge2.
 	instance addEdge: edge3.
@@ -83,6 +94,11 @@ KnowledgeGraph class >> createTpGraph [
 	instance addEdge: edge8.
 	instance addEdge: edge9.
 	instance addEdge: edge10.
+	instance addEdge: edge11.
+	instance addEdge: edge12.
+	instance addEdge: edge13.
+	instance addEdge: edge14.
+	
 	
 	^instance
 ]
@@ -186,9 +202,24 @@ KnowledgeGraph >> getAVertice [
 	^self vertices get: 1
 ]
 
+{ #category : #competencyQuestion }
+KnowledgeGraph >> getAllAlbums [
+	^self breadthSearchForType: 'mo:album'
+]
+
+{ #category : #competencyQuestion }
+KnowledgeGraph >> getAllArtists [
+	^self breadthSearchForType: 'mo:musicArtist'
+]
+
 { #category : #accessing }
 KnowledgeGraph >> getAllEdges [
 	^self edges
+]
+
+{ #category : #competencyQuestion }
+KnowledgeGraph >> getAllGenres [
+	^self breadthSearchForType: 'mo:genre'
 ]
 
 { #category : #competencyQuestion }
@@ -237,6 +268,59 @@ KnowledgeGraph >> getIndexOfVertice: aVertice [
 	^d
 	
 	
+]
+
+{ #category : #competencyQuestion }
+KnowledgeGraph >> getInfosAboutTheTrack: aTrackName [
+	| track track_infos res |
+	res := VerticeArray create.
+	track := self getTheTrackWithTheName: aTrackName.
+	track_infos := self getEdgesOfThisVertice: track.
+	(track_infos at: 1) do: [ :each | each isNotNil ifTrue:[res add: each ending]].
+	(track_infos at: 2) do: [ :each | each isNotNil ifTrue:[res add: each begining]].
+	^res
+	
+	
+	
+	
+]
+
+{ #category : #competencyQuestion }
+KnowledgeGraph >> getTheAlbumWithTheName: aString [
+
+	| tracks |
+	tracks := self getAllAlbums.
+	tracks do: [ :each | each rdfs_label = aString ifTrue: [ ^each ] ].
+	^nil
+	
+]
+
+{ #category : #competencyQuestion }
+KnowledgeGraph >> getTheArtistWithTheName: aString [
+
+	| tracks |
+	tracks := self getAllArtists.
+	tracks do: [ :each | each foaf_name = aString ifTrue: [ ^each ] ].
+	^nil
+	
+]
+
+{ #category : #competencyQuestion }
+KnowledgeGraph >> getTheGenreWithTheName: aString [
+	"Return the first song with the name in parameter."
+	| tracks |
+	tracks := self getAllGenres.
+	tracks do: [ :each | each rdfs_label = aString ifTrue: [ ^each ] ].
+	^nil
+]
+
+{ #category : #competencyQuestion }
+KnowledgeGraph >> getTheTrackWithTheName: aString [
+	"Return the first song with the name in parameter."
+	| tracks |
+	tracks := self getAllTracks.
+	tracks do: [ :each | each rdfs_label = aString ifTrue: [ ^each ] ].
+	^nil
 ]
 
 { #category : #accessing }
