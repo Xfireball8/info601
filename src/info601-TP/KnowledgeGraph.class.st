@@ -418,7 +418,7 @@ KnowledgeGraph >> getTheArtistWithTheName: aString [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #competencyQuestion }
 KnowledgeGraph >> getTheGenreOfThisArtist: anArtistName [
 	| artist_track |
 	artist_track := self getTracksOfThisArtist: anArtistName.
@@ -427,7 +427,7 @@ KnowledgeGraph >> getTheGenreOfThisArtist: anArtistName [
 		 ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #competencyQuestion }
 KnowledgeGraph >> getTheGenreOfThisMusic: aTrack [
 	| edges_res |
 	edges_res := self getEdgesOfThisVertice: aTrack.
@@ -454,7 +454,22 @@ KnowledgeGraph >> getTheTrackWithTheName: aString [
 	^nil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #competencyQuestion }
+KnowledgeGraph >> getTracksOfThisAlbum: anAlbumName [
+	| album edge_res res |
+	res := VerticeArray create.
+	album := self getTheAlbumWithTheName: anAlbumName .
+	edge_res :=  self getEdgesOfThisVertice: album .
+	
+	(edge_res at: 2) do: [ :each |
+		each isNotNil ifTrue: [
+			(each relationship = 'mo:item') ifTrue: [ res add: (each begining) ]
+			]
+		].
+	^res
+]
+
+{ #category : #competencyQuestion }
 KnowledgeGraph >> getTracksOfThisArtist: anArtistName [
 	| infos res |
 	res := VerticeArray create.
