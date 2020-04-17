@@ -173,13 +173,13 @@ KnowledgeGraph >> depthSearchForType: aRdfTypeString [
 	| starting_vertice file res |
 	res := VerticeArray create.
 	starting_vertice := self getAVertice.
-	file := WaitfreeQueue new.
-	
+	file := LIFOQueue new. "Fifo queue"
+		
 	file nextPut: starting_vertice.
 	starting_vertice mark: true.
-	file flush: [
-		 :current_vertice |
-		 | edge_arr from_edges to_edges |
+	[ file peek isNotNil ] whileTrue: [
+		 | edge_arr from_edges to_edges current_vertice|
+			current_vertice := file pop.
 		 	"Tester si le sommet actuel est bien du type que l'on cherche
 			si oui, l'ajouter au resultat."
 			(current_vertice rdf_type = aRdfTypeString) ifTrue: [ 
