@@ -418,6 +418,24 @@ KnowledgeGraph >> getTheArtistWithTheName: aString [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+KnowledgeGraph >> getTheGenreOfThisArtist: anArtistName [
+	| artist_track |
+	artist_track := self getTracksOfThisArtist: anArtistName.
+	(artist_track index > 0) ifTrue: [ 
+			^self getTheGenreOfThisMusic: (artist_track get: 1) 
+		 ]
+]
+
+{ #category : #'as yet unclassified' }
+KnowledgeGraph >> getTheGenreOfThisMusic: aTrack [
+	| edges_res |
+	edges_res := self getEdgesOfThisVertice: aTrack.
+	(edges_res at: 1) do: [ :each |
+		(each relationship = 'mo:genre') ifTrue: [ ^(each ending) ]
+		 ]
+]
+
 { #category : #competencyQuestion }
 KnowledgeGraph >> getTheGenreWithTheName: aString [
 	"Return the first song with the name in parameter."
@@ -434,6 +452,17 @@ KnowledgeGraph >> getTheTrackWithTheName: aString [
 	tracks := self getAllTracks.
 	tracks do: [ :each | each rdfs_label = aString ifTrue: [ ^each ] ].
 	^nil
+]
+
+{ #category : #'as yet unclassified' }
+KnowledgeGraph >> getTracksOfThisArtist: anArtistName [
+	| infos res |
+	res := VerticeArray create.
+	infos := self getInfosAboutTheArtist: anArtistName.
+	infos do: [ :each |
+		(each className = 'Track') ifTrue: [ res add: each ]
+		 ].
+	^res
 ]
 
 { #category : #competencyQuestion }

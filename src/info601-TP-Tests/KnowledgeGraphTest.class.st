@@ -15,6 +15,7 @@ What i test is :
 		- I want to get all the informations about one thing.
 		- I want to get all similar music to one track.
 		- I want to get all the informations about an artist.
+		- I want to get the genre of the music that an artist is doing.
 		
 		TODO : Creating tests for searching things in the graph, and real functionality.
 "
@@ -211,6 +212,16 @@ KnowledgeGraphTest >> testIfICanGetInformationAboutAThing [
 	self assert:(infos anySatisfy: [:each | track_genre = each]).
 	self assert:(infos anySatisfy: [:each | track_artist = each]).
 	
+]
+
+{ #category : #tests }
+KnowledgeGraphTest >> testIfICanGetTheGenreOfTheMusicThatAnArtistIsDoing [
+	| knowledgeGraph genre_test genre_get |
+	knowledgeGraph := KnowledgeGraph createTpGraph.
+	genre_test := knowledgeGraph getTheGenreWithTheName: 'Classic'.
+	genre_get := knowledgeGraph getTheGenreOfThisArtist: 'Alberto Ferro'.
+	
+	self assert: (genre_test = genre_get).
 ]
 
 { #category : #tests }
