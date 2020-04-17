@@ -17,6 +17,8 @@ What i test is :
 		- I want to get all the informations about an artist.
 		- I want to get the genre of the music that an artist is doing.
 		- I want to get all the song of an album.
+		- I want to get the genre of an album.
+		
 		
 "
 Class {
@@ -212,6 +214,17 @@ KnowledgeGraphTest >> testIfICanGetInformationAboutAThing [
 	self assert:(infos anySatisfy: [:each | track_genre = each]).
 	self assert:(infos anySatisfy: [:each | track_artist = each]).
 	
+]
+
+{ #category : #tests }
+KnowledgeGraphTest >> testIfICanGetTheGenreOfAnAlbum [
+	| knowledgeGraph classic_genre test_genre album_test |
+	knowledgeGraph := KnowledgeGraph createTpGraph .
+	classic_genre := knowledgeGraph getTheGenreWithTheName: 'classic'.
+	album_test := knowledgeGraph getAnAlbum.
+	test_genre := knowledgeGraph getTheGenreOfThisAlbum: album_test.
+	
+	self assert: (test_genre = classic_genre).
 ]
 
 { #category : #tests }

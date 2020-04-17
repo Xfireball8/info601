@@ -105,7 +105,7 @@ KnowledgeGraph class >> createTpGraph [
 	^instance
 ]
 
-{ #category : #adding }
+{ #category : #'adding item' }
 KnowledgeGraph >> addEdge: anEdge [
 	
 	| vertice1 vertice2 index1 index2 |
@@ -211,7 +211,7 @@ KnowledgeGraph >> depthSearchForType: aRdfTypeString [
 	| starting_vertice file res |
 	res := VerticeArray create.
 	starting_vertice := self getAVertice.
-	file := LIFOQueue new. "Fifo queue"
+	file := LIFOQueue new.
 		
 	file nextPut: starting_vertice.
 	starting_vertice mark: true.
@@ -345,7 +345,12 @@ KnowledgeGraph >> getAllVertices [
 	^self vertices
 ]
 
-{ #category : #test }
+{ #category : #competencyQuestion }
+KnowledgeGraph >> getAnAlbum [
+	(self vertices) do: [ :each | each isNotNil ifTrue:[ each className = 'Album' ifTrue:[^each]]].
+]
+
+{ #category : #accessing }
 KnowledgeGraph >> getEdgesOfThisVertice: aVertice [
 	
 	| from_axis to_axis from_edges to_edges res |
@@ -419,6 +424,17 @@ KnowledgeGraph >> getTheArtistWithTheName: aString [
 ]
 
 { #category : #competencyQuestion }
+KnowledgeGraph >> getTheGenreOfThisAlbum: anAlbum [
+	((self getEdgesOfThisVertice: anAlbum) at: 1) do: [ 
+		:each |
+		each isNotNil ifTrue: [ 
+				each relationship = 'mo:item' ifTrue: [ ^each ending ]
+			 ]
+		 ].
+	^nil
+]
+
+{ #category : #competencyQuestion }
 KnowledgeGraph >> getTheGenreOfThisArtist: anArtistName [
 	| artist_track |
 	artist_track := self getTracksOfThisArtist: anArtistName.
@@ -441,7 +457,7 @@ KnowledgeGraph >> getTheGenreWithTheName: aString [
 	"Return the first song with the name in parameter."
 	| tracks |
 	tracks := self getAllGenres.
-	tracks do: [ :each | each rdfs_label = aString ifTrue: [ ^each ] ].
+	tracks do: [ :each | each isNotNil ifTrue:[each rdfs_label = aString ifTrue: [ ^each ]] ].
 	^nil
 ]
 
