@@ -32,7 +32,7 @@ KnowledgeGraph class >> createTpGraph [
 	"Create the graph we draw in for the TP."
 	
 	
-	| artist1 artist2 artist3 album1 music1 music2 music3 genre1 edge1 edge2 edge3 edge4 edge5 edge6 	edge7 edge8 edge9 edge10 instance music4 edge11 artist4 album2 edge12 edge13 edge14 |
+	| artist1 artist2 artist3 album1 music1 music2 music3 genre1 edge1 edge2 edge3 edge4 edge5 edge6 	edge7 edge8 edge9 edge10 instance music4 edge11 artist4 album2 edge12 edge13 edge14 edge15 |
 	
 	
 	"++++++ Genre ++++++"
@@ -70,6 +70,7 @@ KnowledgeGraph class >> createTpGraph [
 	edge12 := Edges newEdgeFrom: artist4 to: music4 withRelationship: 'dc:creator'.
 	edge13 := Edges newEdgeFrom: music4 to: album2 withRelationship: 'mo:item'.
 	edge14 := Edges newEdgeFrom: music1 to: album1 withRelationship: 'mo:item'.
+	edge15 := Edges newEdgeFrom: artist4 to: album2 withRelationship: 'dc:creator'.
 	
 	
 	instance := self create.
@@ -98,6 +99,7 @@ KnowledgeGraph class >> createTpGraph [
 	instance addEdge: edge12.
 	instance addEdge: edge13.
 	instance addEdge: edge14.
+	instance addEdge: edge15.
 	
 	
 	^instance
@@ -368,6 +370,17 @@ KnowledgeGraph >> getIndexOfVertice: aVertice [
 	^d
 	
 	
+]
+
+{ #category : #competencyQuestion }
+KnowledgeGraph >> getInfosAboutTheArtist: anArtistName [
+	| track track_infos res  |
+	res := VerticeArray create.
+	track := self getTheArtistWithTheName: anArtistName.
+	track_infos := self getEdgesOfThisVertice: track.
+	(track_infos at: 1) do: [ :each | each isNotNil ifTrue:[res add: each ending]].
+	(track_infos at: 2) do: [ :each | each isNotNil ifTrue:[res add: each begining]].
+ 	^res
 ]
 
 { #category : #competencyQuestion }
