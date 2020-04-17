@@ -191,6 +191,27 @@ KnowledgeGraphTest >> testIfICanGetInformationAboutAThing [
 ]
 
 { #category : #tests }
+KnowledgeGraphTest >> testIfIcanGetAllAlbumsInMyGraph [
+
+	| knowledgeGraph tracksWithoutTraversal trackWithTraversal |
+	knowledgeGraph := KnowledgeGraph createTpGraph.
+	
+	tracksWithoutTraversal  := knowledgeGraph getAllAlbumsWithoutTraversal.
+	trackWithTraversal := knowledgeGraph getAllAlbums.
+	
+	self assert: (
+	trackWithTraversal allSatisfy: 
+		[:eachTrackWithTraversal | 
+				tracksWithoutTraversal anySatisfy: 
+					[ 
+						:eachTrackWithoutTraversal |
+						eachTrackWithoutTraversal = eachTrackWithTraversal 
+				 	]
+		]
+	).
+]
+
+{ #category : #tests }
 KnowledgeGraphTest >> testIfIcanGetAllTracksInMyGraph [
 
 	| knowledgeGraph tracksWithoutTraversal trackWithTraversal |
