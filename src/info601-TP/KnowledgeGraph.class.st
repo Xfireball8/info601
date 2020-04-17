@@ -168,6 +168,42 @@ KnowledgeGraph >> breadthSearchForType: aRdfTypeString [
 	^res
 ]
 
+{ #category : #searchAlgorithms }
+KnowledgeGraph >> circuitSearchForRelationship: anOntologyRelationship from: aVertice [
+	| starting_vertice file res |
+	res := VerticeArray create.
+	starting_vertice := aVertice.
+	file := WaitfreeQueue new.
+	
+	file nextPut: starting_vertice.
+	starting_vertice mark: true.
+	file flush: [
+		 :current_vertice |
+		 | edge_arr from_edges to_edges |
+		 	"Ajouter l'élément au res"
+			res add: current_vertice.
+
+			
+			"Mettre en file les sommets voisins et les marquer."
+			edge_arr := (self getEdgesOfThisVertice: current_vertice).
+			from_edges := edge_arr at: 1.
+			to_edges := edge_arr  at: 2.
+			from_edges do: [ 
+					:each |
+					each isNotNil ifTrue: [
+					(each ending mark) ifFalse: [
+						(each relationship = anOntologyRelationship) ifTrue: [ 
+							file nextPut: (each ending).
+							each begining mark: true.
+						  ]
+						]
+					 ]
+				 ].
+			].
+	self markVerticesAsFalse.
+	^res
+]
+
 { #category : #test }
 KnowledgeGraph >> doesTheVerticeHasEdges: aVertice [
 	" Je veux savoir si ma vertice possède au moins une arrête. Les arrêtes sont stoquées dans 	  	  	EdgesMatrix.
@@ -220,6 +256,14 @@ KnowledgeGraph >> getAllEdges [
 { #category : #competencyQuestion }
 KnowledgeGraph >> getAllGenres [
 	^self breadthSearchForType: 'mo:genre'
+]
+
+{ #category : #competencyQuestion }
+KnowledgeGraph >> getAllSimilarTracksTo: aTrackName [
+	| track tracks |
+	track := self getTheTrackWithTheName: aTrackName.
+	tracks := self circuitSearchForRelationship: 'mo:similarTo' from: track.
+	^tracks
 ]
 
 { #category : #competencyQuestion }
@@ -321,6 +365,16 @@ KnowledgeGraph >> getTheTrackWithTheName: aString [
 	tracks := self getAllTracks.
 	tracks do: [ :each | each rdfs_label = aString ifTrue: [ ^each ] ].
 	^nil
+]
+
+{ #category : #competencyQuestion }
+KnowledgeGraph >> getTracksWithTheName: aString [
+	"Return the first song with the name in parameter."
+	| tracks res |
+	res := VerticeArray create.
+	tracks := self getAllTracks.
+	tracks do: [ :each | each isNotNil ifTrue: [each rdfs_label = aString ifTrue: [ res add: each ]]].
+	^res
 ]
 
 { #category : #accessing }

@@ -13,6 +13,7 @@ What i test is :
 		- I want to get a particular album.
 		- I want to get a particular artist.
 		- I want to get all the informations about one thing.
+		- I want to get all similar music to one track.
 		
 		TODO : Creating tests for searching things in the graph, and real functionality.
 "
@@ -154,6 +155,27 @@ KnowledgeGraphTest >> testIfICanGetAVerticeOfMyGraph [
 		
 		self assert: (knowledgeGraph getAllVertices detect: [:each | each = vertice1] ifFound:[true] ifNone:[false]).
 		self assert: (knowledgeGraph getAllVertices detect: [:each | each = vertice2] ifFound:[true] ifNone:[false]).
+]
+
+{ #category : #tests }
+KnowledgeGraphTest >> testIfICanGetAllSimilarMusicToOne [
+	
+	| knowledgeGraph track_name tracks_test tracks_similar |
+	track_name := 'Aria da capo'.
+	knowledgeGraph := KnowledgeGraph createTpGraph.
+	tracks_test := knowledgeGraph getTracksWithTheName: track_name.
+	tracks_similar := knowledgeGraph getAllSimilarTracksTo: track_name.
+	
+	"Alright"
+	self assert: (
+	tracks_test allSatisfy: [ 
+		:eachTracksFromTracksTest |
+			tracks_similar anySatisfy: [ 
+					:eachTracksFromTracksSimilar |
+						eachTracksFromTracksSimilar = eachTracksFromTracksTest
+				 ] 
+		 ]
+	).
 ]
 
 { #category : #tests }
